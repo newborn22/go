@@ -859,3 +859,14 @@
 (Max64  x y) && buildcfg.GORISCV64 >= 22 => (MAX  x y)
 (Min64u x y) && buildcfg.GORISCV64 >= 22 => (MINU x y)
 (Max64u x y) && buildcfg.GORISCV64 >= 22 => (MAXU x y)
+
+// Constant folding loads from read-only globals.
+// The resulting MOVDconst is a register-width constant that embeds the data
+// read at compile time, eliminating runtime memory accesses to .rodata.
+(MOVBUload [off] {sym} (SB) _) && symIsRO(sym) => (MOVDconst [int64(read8(sym, int64(off)))])
+(MOVHUload [off] {sym} (SB) _) && symIsRO(sym) => (MOVDconst [int64(read16(sym, int64(off), config.ctxt.Arch.ByteOrder))])
+(MOVWUload [off] {sym} (SB) _) && symIsRO(sym) => (MOVDconst [int64(read32(sym, int64(off), config.ctxt.Arch.ByteOrder))])
+(MOVDload  [off] {sym} (SB) _) && symIsRO(sym) => (MOVDconst [int64(read64(sym, int64(off), config.ctxt.Arch.ByteOrder))])
+(MOVBload  [off] {sym} (SB) _) && symIsRO(sym) => (MOVDconst [int64(int8(read8(sym, int64(off))))])
+(MOVHload  [off] {sym} (SB) _) && symIsRO(sym) => (MOVDconst [int64(int16(read16(sym, int64(off), config.ctxt.Arch.ByteOrder)))])
+(MOVWload  [off] {sym} (SB) _) && symIsRO(sym) => (MOVDconst [int64(int32(read32(sym, int64(off), config.ctxt.Arch.ByteOrder)))])
