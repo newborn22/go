@@ -17,12 +17,12 @@ jobs:
             # install bootstrap Go
             set -euxo pipefail
             BOOT=/tmp/go-bootstrap
-            rm -rf "$BOOT"
-            curl -fsSL https://go.dev/dl/go1.25.0.linux-riscv64.tar.gz -o /tmp/go.tar.gz
-            tar -C /tmp -xzf /tmp/go.tar.gz
-            mv /tmp/go "$BOOT"
-            export GOROOT_BOOTSTRAP="$BOOT"
+            # rm -rf "$BOOT"
+            # curl -fsSL https://go.dev/dl/go1.25.0.linux-riscv64.tar.gz -o /tmp/go.tar.gz
+            # tar -C /tmp -xzf /tmp/go.tar.gz
+            # mv /tmp/go "$BOOT"
+            # export GOROOT_BOOTSTRAP="$BOOT"
 
-            # build toolchain
-            cd "$GITHUB_WORKSPACE/src"
-            ./make.bash
+            # # build toolchain
+            # cd "$GITHUB_WORKSPACE/src"
+            # ./make.bash
